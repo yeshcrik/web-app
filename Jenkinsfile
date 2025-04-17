@@ -1,21 +1,32 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'web-app'
-        CONTAINER_NAME = 'web-app-container'
-        PORT = '3000'
-    }
-
     stages {
         stage('Clone') {
             steps {
-                git url: 'https://github.com/yeshcrik/web-app.git'
+                // Pull the code from GitHub
+                git 'git@github.com:yeshcrik/web-app.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
+                script {
+                    // Build the Docker image
+                    docker.build("web-app:latest")
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                // Run the Docker container in detached mode
+                sh 'docker run -d -p 3000:3000 --name web-app web-app:latest'
+            }
+        }
+    }
+}
+
                 script {
                     docker.build("${IMAGE_NAME}:latest")
                 }
