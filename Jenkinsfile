@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'git@github.com:yeshcrik/web-app.git'
+                git url: 'https://github.com/yeshcrik/web-app.git'
             }
         }
 
